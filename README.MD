@@ -52,3 +52,12 @@
     # 两月前、前两月
     $beginEndTime = $dateTimeSection->month(2);
     $beginEndTime = $dateTimeSection->betweenMonth(2);
+    
+    # 根据时间段显示不同的时间格式
+    # 当天  H：i
+    # 昨天  昨天 H：i
+    # 前天及以后 星期几 H：i
+    # 大于一周 x月x日 上午/下午 H：i
+    # 大于一年 x年x月x日 上午/下午 H：i
+    $dateTimeFormat = $dateTimeSection->getTimeAwayFromNow();
+    echo $dateTimeFormat;

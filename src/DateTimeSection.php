@@ -135,4 +135,66 @@ class DateTimeSection
 
         return new BeginEndTime($beginTime, $endTime);
     }
+
+    /**
+     * 从近由远依次是
+     *
+     *   当天   显示：H：i
+     *
+     *   昨天   显示：  昨天 H：i
+     *
+     *   前天及以后 显示：星期x H：i
+     *
+     *   大于一周 显示：  x月x日 上午/下午 H：i
+     *
+     *   大于一年 显示:  x年x月x日 上午/下午 H：i
+     *
+     * @return string
+     */
+    public function getTimeAwayFromNow()
+    {
+        $unixTime = $this->dateTimeAttr->get();
+
+        if ($unixTime) {
+
+            $now = time();
+
+            if ($unixTime > $now) {
+                return date('Y-m-d H:i:s', $this->dateTimeAttr->get());
+            }
+
+            $toDayBeginTime = date('Y-m-d');
+
+            $toDayBeginUnixTime = strtotime($toDayBeginTime);
+
+            // 当天
+            if ($unixTime >= $toDayBeginUnixTime) {
+                return date('H:i', $unixTime);
+            }
+
+            // 昨天
+            if ($unixTime < $toDayBeginUnixTime && $unixTime > $toDayBeginUnixTime - 86400) {
+                return '昨天 ' . date('H:i', $unixTime);
+            }
+
+            // 跨周
+            $toDayWeek = date('w');
+
+            $week = $this->dateTimeAttr->getWeek(false);
+
+            if ($toDayWeek - $week > 0 && $week) {
+                return $this->dateTimeAttr->getWeek() . ' ' . date('H:i', $unixTime);
+            }
+
+            // 今年
+            if (date('Y') == $this->dateTimeAttr->getYear()) {
+                return date('m-d ' . $this->dateTimeAttr->getMeridian() . ' H:i:s', $unixTime);
+            }
+
+            // 跨年
+            return date('Y-m-d ' . $this->dateTimeAttr->getMeridian() . ' H:i:s', $unixTime);
+        }
+
+        return '';
+    }
 }

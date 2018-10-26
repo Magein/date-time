@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('PRC');
+
 spl_autoload_register(function ($class) {
 
     $classUrl = explode('\\', $class);
@@ -10,7 +12,7 @@ spl_autoload_register(function ($class) {
 use Magein\date\DateTimeSection;
 use Magein\date\DateTimeAttr;
 
-$dateTime = '2017/5/26';
+$dateTime = '2017/10/21 08:25:55';
 # 如果不传递参数，则使用当前时间戳
 $dateTimeAttr = new DateTimeAttr($dateTime);
 # 获取年
@@ -61,14 +63,25 @@ $beginEndTime = $dateTimeSection->betweenWeek(2);
 $beginEndTime = $dateTimeSection->month(2);
 $beginEndTime = $dateTimeSection->betweenMonth(2);
 
+# 根据时间段显示不同的时间格式
+# 当天  H：i
+# 昨天  昨天 H：i
+# 前天及以后 星期几 H：i
+# 大于一周 x月x日 上午/下午 H：i
+# 大于一年 x年x月x日 上午/下午 H：i
+$dateTimeFormat = $dateTimeSection->getTimeAwayFromNow();
+echo $dateTimeFormat;
+
+echo '<br>';
+echo '<br>';
+
+echo '*****************以下时间段是以设置的时间点为基准的**************************';
+echo '<br>';
+echo '<br>';
+
 echo '当前时间是: ' . date('Y-m-d H:i:s');
 echo '<br>';
 echo '设置的时间点是:' . $dateTimeAttr->get(false);
-echo '<br>';
-
-echo '<br>';
-echo '*****************以下时间段是以设置的时间点为基准的**************************';
-echo '<br>';
 echo '<br>';
 
 $day = function ($day) use ($dateTimeSection) {

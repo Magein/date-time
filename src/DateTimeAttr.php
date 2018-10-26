@@ -109,8 +109,9 @@ class DateTimeAttr
     }
 
     /**
-     * @param string $dateTimeOrUnixTime
+     * @param $dateTimeOrUnixTime
      * @return bool
+     * @throws \Exception
      */
     private function init($dateTimeOrUnixTime)
     {
@@ -130,7 +131,7 @@ class DateTimeAttr
                 if ($unixTime && $check($unixTime)) {
                     $this->unixTime = $unixTime;
                 } else {
-                    return false;
+                    throw new \Exception('时间点设置的不正确');
                 }
             }
 
