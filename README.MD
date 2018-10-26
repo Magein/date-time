@@ -14,6 +14,8 @@
     $dateTimeAttr->getMaxDay();
     # 获取一年中的第几天
     $dateTimeAttr->getDayOfYear();
+    # 是否是润年 0 不是 1 是
+    $dateTimeAttr->getLeapYear();
     # 获取子午线 am/上午 pm/下午
     $dateTimeAttr->getMeridian();
     # 获取时间  年月日 或者 年月日的时间戳（默认）
